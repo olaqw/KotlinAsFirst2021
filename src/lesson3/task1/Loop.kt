@@ -76,7 +76,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var k = 0
-    var m = n
+    var m = abs(n)
     if (m == 0)
         return 1
     else {
@@ -155,7 +155,7 @@ fun collatzSteps(x: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = 0
+    var k = 1
     for (i in 2..m * n) {
         if (i % n == 0 && i % m == 0) {
             k = i
@@ -247,7 +247,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun squareSequenceDigit(n: Int): Int {
     var c = 0
     var k = 1
-    for (i in 1..100) {
+    for (i in 1..100000000) {
         c += digitNumber(i * i)
         if (c >= n) {
             k = i * i
@@ -274,7 +274,7 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var c = 0
     var k = 1
-    for (i in 1..100) {
+    for (i in 1..1000000) {
         c += digitNumber(fib(i))
         if (c >= n) {
             k = fib(i)
