@@ -19,10 +19,8 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean {
-    if ((number / 1000) + ((number / 100) % 10) == (((number / 10) % 10) + (number % 10))) return true
-    else return false
-}
+fun isNumberHappy(number: Int): Boolean =
+    (number / 1000) + ((number / 100) % 10) == (((number / 10) % 10) + (number % 10))
 
 
 /**
@@ -42,10 +40,10 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
 fun daysInMonth(month: Int, year: Int): Int {
-    if ((month == 2) && ((year % 4 == 0) && (year % 100 != 0)) || ((year % 400 == 0))) return 29
-    if ((month == 2) && ((year % 4 != 0) || ((year % 100 == 0) && (year % 400 != 0)))) return 28
-    if ((month % 2 == 1) || (month == 8)) return 31
-    else return 30
+    if (month == 2 && (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) return 29
+    if (month == 2 && (year % 4 != 0 || (year % 100 == 0 && year % 400 != 0))) return 28
+    return if (month % 2 == 1 || month == 8) 31
+    else 30
 }
 
 /**
@@ -61,7 +59,6 @@ fun circleInside(
 ): Boolean = TODO()
 
 
-
 /**
  * Средняя (3 балла)
  *
@@ -72,11 +69,11 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    var mx = max(a, max(b, c))
-    var mn = min(a, min(b, c))
-    var mid = a+b+c - (mx + mn)
-    var bigw = max(r, s)
-    var litw = r+s - bigw
-    if (mid <= bigw && mn <= litw) return true
-    else return false
+    val mx = maxOf(a, b, c)
+    val mn = minOf(a, b, c)
+    val mid = a + b + c - (mx + mn)
+    val big = max(r, s)
+    val lit = r + s - big
+    return mid <= big && mn <= lit
 }
+

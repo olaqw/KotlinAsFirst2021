@@ -71,9 +71,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     if (age % 10 == 1 && age != 11 && age != 111) return "$age год"
-    if (((age % 10 == 2) || (age % 10 == 3) || (age % 10 == 4)) && (age % 100 != 12) && (age % 100 != 13) && (age % 100 != 14)) return "$age года"
-    else return "$age лет"
+    return if ((age % 10 == 2 || age % 10 == 3 || age % 10 == 4) && (age % 100 != 12) && (age % 100 != 13) && (age % 100 != 14)) "$age года"
+    else "$age лет"
 }
+
 /**
  * Простая (2 балла)
  *
@@ -86,10 +87,10 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    val s: Double = ((t1 * v1 + t2 * v2 + t3 * v3) / 2)
+    val s = ((t1 * v1 + t2 * v2 + t3 * v3) / 2)
     if (s <= t1 * v1) return (s / v1)
-    if (s < t1 * v1 + t2 * v2) return (((s - v1 * t1) / v2) + t1)
-    else return (((s - v1 * t1 - v2 * t2) / v3) + t1 + t2)
+    return if (s < t1 * v1 + t2 * v2) (((s - v1 * t1) / v2) + t1)
+    else (((s - v1 * t1 - v2 * t2) / v3) + t1 + t2)
 }
 
 /**
@@ -137,12 +138,9 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    var x: Double
-    var y: Double
-    var z: Double
-    x = max(c, max(a, b))
-    z = min(c, min(a, b))
-    y = a + b + c - x - z
+    val z: Double = min(c, min(a, b))
+    val x: Double = max(c, max(a, b))
+    val y: Double = a + b + c - x - z
     if (z * z + y * y == x * x) return 1
     if (x > z + y) return -1
     if (z * z + y * y < x * x) return 2
@@ -158,6 +156,6 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if ((b >= c) && (d >= a)) return min(b, d)-max(a, c)
-    else return -1
+    return if ((b >= c) && (d >= a)) min(b, d) - max(a, c)
+    else -1
 }
