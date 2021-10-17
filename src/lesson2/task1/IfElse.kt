@@ -69,11 +69,12 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String {
-    if (age % 10 == 1 && age != 11 && age != 111) return "$age год"
-    return if ((age % 10 == 2 || age % 10 == 3 || age % 10 == 4) && (age % 100 != 12) && (age % 100 != 13) && (age % 100 != 14)) "$age года"
-    else "$age лет"
-}
+fun ageDescription(age: Int): String =
+    when {
+        age % 10 == 1 && age != 11 && age != 111 -> "$age год"
+        (age % 10 == 2 || age % 10 == 3 || age % 10 == 4) && (age % 100 != 12) && (age % 100 != 13) && (age % 100 != 14) -> "$age года"
+        else -> "$age лет"
+    }
 
 /**
  * Простая (2 балла)
@@ -87,12 +88,13 @@ fun timeForHalfWay(
     t2: Double, v2: Double,
     t3: Double, v3: Double
 ): Double {
-    val s = ((t1 * v1 + t2 * v2 + t3 * v3) / 2)
-    if (s <= t1 * v1) return (s / v1)
-    return if (s < t1 * v1 + t2 * v2) (((s - v1 * t1) / v2) + t1)
-    else (((s - v1 * t1 - v2 * t2) / v3) + t1 + t2)
+    val s = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    return when {
+        s <= t1 * v1 -> s / v1
+        s < t1 * v1 + t2 * v2 -> ((s - v1 * t1) / v2) + t1
+        else -> ((s - v1 * t1 - v2 * t2) / v3) + t1 + t2
+    }
 }
-
 /**
  * Простая (2 балла)
  *
@@ -106,11 +108,12 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int {
-    if ((rookX1 != kingX && rookY1 != kingY) && (rookX2 != kingX && rookY2 != kingY)) return 0
-    if (((rookX1 == kingX && rookY1 != kingY) || (rookX1 != kingX && rookY1 == kingY)) && (rookX2 != kingX && rookY2 != kingY)) return 1
-    if (((rookX2 == kingX && rookY2 != kingY) || (rookX2 != kingX && rookY2 == kingY)) && (rookX1 != kingX && rookY1 != kingY)) return 2
-    else return 3
+): Int =
+    when {
+        (rookX1 != kingX && rookY1 != kingY) && (rookX2 != kingX && rookY2 != kingY) -> 0
+        ((rookX1 == kingX && rookY1 != kingY) || (rookX1 != kingX && rookY1 == kingY)) && (rookX2 != kingX && rookY2 != kingY) -> 1
+        ((rookX2 == kingX && rookY2 != kingY) || (rookX2 != kingX && rookY2 == kingY)) && (rookX1 != kingX && rookY1 != kingY) -> 2
+        else -> 3
 }
 
 /**
@@ -138,13 +141,15 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val z: Double = min(c, min(a, b))
-    val x: Double = max(c, max(a, b))
-    val y: Double = a + b + c - x - z
-    if (z * z + y * y == x * x) return 1
-    if (x > z + y) return -1
-    if (z * z + y * y < x * x) return 2
-    else return 0
+    val z = minOf(a, b, c)
+    val x = maxOf(a, b, c)
+    val y = a + b + c - x - z
+    return when {
+        z * z + y * y == x * x -> 1
+        x > z + y -> -1
+        z * z + y * y < x * x -> 2
+        else -> 0
+    }
 }
 
 /**
@@ -155,7 +160,5 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return if ((b >= c) && (d >= a)) min(b, d) - max(a, c)
-    else -1
-}
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = if ((b >= c) && (d >= a)) min(b, d) - max(a, c) else -1
+

@@ -75,11 +75,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    var k = 0
     var m = abs(n)
     if (m == 0)
         return 1
     else {
+        var k = 0
         while (m > 0) {
             k++
             m = (m / 10)
@@ -102,14 +102,12 @@ fun fib(n: Int): Int = ((((1 + sqrt(5.0)) / 2).pow(n) - ((1 - sqrt(5.0)) / 2).po
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var k = 0
     for (i in 2..n) {
         if (n % i == 0) {
-            k = i
-            break
+            return i
         }
     }
-    return k
+    return -1
 }
 
 /**
@@ -154,10 +152,12 @@ fun collatzSteps(x: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
+fun lcm(m: Int, n: Int): Int = m * n / nod(m, n)
+
+fun nod(m: Int, n: Int): Int {
     var k = 1
-    for (i in 2..m * n) {
-        if (i % n == 0 && i % m == 0) {
+    for (i in min(m, n) downTo 2) {
+        if (n % i == 0 && m % i == 0) {
             k = i
             break
         }
@@ -246,13 +246,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun squareSequenceDigit(n: Int): Int {
     var c = 0
-    var k = 1
-    for (i in 1..100000000) {
+    var k: Int
+    var i = 1
+    while (true) {
         c += digitNumber(i * i)
         if (c >= n) {
             k = i * i
             break
         }
+        i++
     }
     while (c > n) {
         k /= 10
@@ -273,13 +275,15 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var c = 0
-    var k = 1
-    for (i in 1..1000000) {
+    var k: Int
+    var i = 1
+    while (true) {
         c += digitNumber(fib(i))
         if (c >= n) {
             k = fib(i)
             break
         }
+        i++
     }
     while (c > n) {
         k /= 10
