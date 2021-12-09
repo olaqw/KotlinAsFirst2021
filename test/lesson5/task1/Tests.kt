@@ -192,7 +192,6 @@ class Tests {
 
     @Test
     @Tag("4")
-
     fun averageStockPrice() {
         assertEquals(
             mapOf<String, Double>(),
