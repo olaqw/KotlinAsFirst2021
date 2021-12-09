@@ -2,7 +2,6 @@
 
 package lesson3.task1
 
-import kotlin.math.sqrt
 import kotlin.math.*
 
 
@@ -102,7 +101,7 @@ fun fib(n: Int): Int = ((((1 + sqrt(5.0)) / 2).pow(n) - ((1 - sqrt(5.0)) / 2).po
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n) {
+    for (i in 2..n / 2 + 1) {
         if (n % i == 0) {
             return i
         }
@@ -155,14 +154,14 @@ fun collatzSteps(x: Int): Int {
 fun lcm(m: Int, n: Int): Int = m * n / nod(m, n)
 
 fun nod(m: Int, n: Int): Int {
-    var k = 1
-    for (i in min(m, n) downTo 2) {
-        if (n % i == 0 && m % i == 0) {
-            k = i
-            break
-        }
+    var a = m
+    var b = n
+    while (b != 0) {
+        val tmp: Int = a % b
+        a = b
+        b = tmp
     }
-    return k
+    return a
 }
 
 /**

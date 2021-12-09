@@ -3,6 +3,8 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import java.lang.Math.pow
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -174,7 +176,7 @@ fun times(a: List<Int>, b: List<Int>): Int =
         a.isEmpty() || b.isEmpty() -> 0
         else -> {
             var c = 0
-            for (i in 0 until a.size)
+            for (i in a.indices)
                 c += a[i] * b[i]
             c
         }
@@ -188,7 +190,16 @@ fun times(a: List<Int>, b: List<Int>): Int =
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0 при любом x.
  */
-fun polynom(p: List<Int>, x: Int): Int = TODO()
+fun polynom(p: List<Int>, x: Int): Int =
+    when {
+        p.isEmpty() -> 0
+        else -> {
+            var c = 0
+            for (i in p.indices)
+                c += p[i] * x.toDouble().pow(i.toDouble()).toInt()
+            c
+        }
+    }
 
 /**
  * Средняя (3 балла)
@@ -209,7 +220,19 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    var l = mutableListOf<Int>()
+    var k = n
+    var i = 2
+    while (i <= k) {
+        if (k % i == 0) {
+            l.add(i)
+            k /= i
+        } else i++
+    }
+    return l
+}
+
 
 /**
  * Сложная (4 балла)
@@ -218,7 +241,17 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    var l = factorize(n)
+    var s = ""
+    for (i in l.indices) {
+        s += l[i].toString()
+        if (i != l.size - 1)
+            s += '*'
+    }
+    return s
+}
+
 
 /**
  * Средняя (3 балла)
@@ -227,7 +260,16 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var l = mutableListOf<Int>()
+    var k = n
+    while (k > 0) {
+        l.add(k % base)
+        k /= base
+    }
+    l.reverse()
+    return l
+}
 
 /**
  * Сложная (4 балла)
@@ -240,7 +282,17 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val l = convert(n, base).toMutableList()
+    var s: String = ""
+    val b: String = "abcdefghijklmnopqrstuvwxyz"
+    for (k in l.indices) {
+        if (l[k] > 9)
+            s += (b[l[k] - 10])
+        else s += l[k].toString()
+    }
+    return s
+}
 
 /**
  * Средняя (3 балла)
@@ -249,7 +301,13 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var k = 0
+    for (i in digits.indices)
+        k += digits[i] * base.toDouble().pow(digits.size - i - 1.toDouble()).toInt()
+    return k
+}
+
 
 /**
  * Сложная (4 балла)
@@ -267,13 +325,31 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
 
 /**
  * Сложная (5 баллов)
- *
  * Перевести натуральное число n > 0 в римскую систему.
  * Римские цифры: 1 = I, 4 = IV, 5 = V, 9 = IX, 10 = X, 40 = XL, 50 = L,
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var result = ""
+    result += "M".repeat(n / 1000)
+    result += Digit(n / 100 % 10, "C", "D", "M")
+    result += Digit(n / 10 % 10, "X", "L", "C")
+    result += Digit(n % 10, "I", "V", "X")
+    return result
+}
+
+fun Digit(digit: Int, firstS: String, secondS: String, thirdS: String): String =
+    when (digit) {
+        0 -> ""
+        in 1..3 -> firstS.repeat(digit)
+        4 -> firstS + secondS
+        5 -> secondS
+        in 6..8 -> secondS + firstS.repeat(digit - 5)
+        9 -> firstS + thirdS
+        else -> ""
+    }
+
 
 /**
  * Очень сложная (7 баллов)
