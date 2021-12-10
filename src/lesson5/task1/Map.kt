@@ -3,6 +3,7 @@
 package lesson5.task1
 
 import ru.spbstu.wheels.toMutableMap
+import lesson4.task1.mean
 
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
@@ -187,9 +188,8 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> =
-    stockPrices.groupBy { it.first }.mapValues { it: Map.Entry<String, List<Pair<String, Double>>> ->
-        it.value.size / it.value.sumOf { it.second }
-    }
+    stockPrices.groupBy({ it.first }, { it.second }).mapValues { mean(it.value) }
+
 
 /**
  * Средняя (4 балла)
