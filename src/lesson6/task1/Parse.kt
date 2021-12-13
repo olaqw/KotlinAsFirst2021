@@ -106,7 +106,7 @@ fun dateStrToDigit(str: String): String {
         return ""
     }
     if (date < 1 || date > daysInMonth(month, year)) return ""
-    return "%02d.%02d.%04d".format(date, month, year)
+    return "%02d.%02d.%d".format(date, month, year)
 }
 
 /**
@@ -225,7 +225,7 @@ fun plusMinus(expression: String): Int {
     var sign = 1
     for (part in parts) {
         if (parts.indexOf(part) % 2 == 0) {
-            require(part.all { it in '0' until '9' })
+            require(part.all { it in '0'..'9' })
             res += part.toInt() * sign
         } else sign = when (part) {
             "-" -> -1

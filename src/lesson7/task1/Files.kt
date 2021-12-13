@@ -105,14 +105,14 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    val goodLetters = setOf('ч', 'ж', 'ш', 'щ')
-    val toFix = mapOf('я' to 'а', 'ю' to 'у', 'ы' to 'и')
+    TODO()
+    //val goodLetters = setOf('ч', 'ж', 'ш', 'щ')
+    //val toFix = mapOf('я' to 'а', 'ю' to 'у', 'ы' to 'и')
 
-    File(outputName).bufferedWriter().use { write ->
-        File(inputName).forEachLine { l ->
-            
-        }
-    }
+    //File(outputName).bufferedWriter().use { write ->
+    //    File(inputName).forEachLine { l ->
+    //    }
+    //}
 }
 
 /**

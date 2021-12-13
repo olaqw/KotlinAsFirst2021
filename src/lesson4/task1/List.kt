@@ -383,7 +383,7 @@ fun russian(n: Int): String {
             append = "тысяч"
         } else if (thousandCount % 10 == 1) {
             append = "тысяча"
-        } else if (thousandCount % 10 in 2..5) {
+        } else if (thousandCount % 10 in 2..4) {
             append = "тысячи"
         } else append = "тысяч"
         result = (russian(thousandCount) + " " + append + " ").replace("один ", "одна ").replace("два ", "две ") + result
