@@ -13,6 +13,7 @@ import kotlin.math.*
 fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
     sqr(x - x0) + sqr(y - y0) <= sqr(r)
 
+
 /**
  * Простая (2 балла)
  *

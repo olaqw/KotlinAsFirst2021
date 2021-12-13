@@ -86,7 +86,6 @@ fun digitNumber(n: Int): Int {
         return k
     }
 }
-
 /**
  * Простая (2 балла)
  *

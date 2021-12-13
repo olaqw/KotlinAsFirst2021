@@ -331,15 +331,15 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var result = ""
-    result += "M".repeat(n / 1000)
-    result += Digit(n / 100 % 10, "C", "D", "M")
-    result += Digit(n / 10 % 10, "X", "L", "C")
-    result += Digit(n % 10, "I", "V", "X")
-    return result
+    var res = ""
+    res += "M".repeat(n / 1000)
+    res += digit(n / 100 % 10, "C", "D", "M")
+    res += digit(n / 10 % 10, "X", "L", "C")
+    res += digit(n % 10, "I", "V", "X")
+    return res
 }
 
-fun Digit(digit: Int, firstS: String, secondS: String, thirdS: String): String =
+fun digit(digit: Int, firstS: String, secondS: String, thirdS: String): String =
     when (digit) {
         0 -> ""
         in 1..3 -> firstS.repeat(digit)
@@ -358,4 +358,36 @@ fun Digit(digit: Int, firstS: String, secondS: String, thirdS: String): String =
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val firstTen = listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val secondTen = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать",
+        "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val ten = listOf("", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят",
+        "семьдесят", "восемьдесят", "девяносто")
+    val hundred = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот",
+        "семьсот", "восемьсот", "девятьсот")
+    val thousandCount = n / 1000
+    val hundredCount = n / 100 % 10
+    val tenCount = n / 10 % 10
+
+    var result = ""
+    if (tenCount == 1) {
+        result += secondTen[n % 10]
+    } else {
+        result = ten[tenCount] + " " + firstTen[n % 10]
+    }
+    result = hundred[hundredCount] + " " + result
+    if (thousandCount > 0) {
+        var append = ""
+        if (thousandCount % 100 in 11..19) {
+            append = "тысяч"
+        } else if (thousandCount % 10 == 1) {
+            append = "тысяча"
+        } else if (thousandCount % 10 in 2..5) {
+            append = "тысячи"
+        } else append = "тысяч"
+        result = (russian(thousandCount) + " " + append + " ").replace("один ", "одна ").replace("два ", "две ") + result
+    }
+    return result.replace("\\s+".toRegex(), " ").trim()
+    // teRegex убирает двойные пробелы, trim пробелы в начале и в конце
+}

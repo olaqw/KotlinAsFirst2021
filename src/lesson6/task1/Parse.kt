@@ -2,6 +2,10 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+import lesson4.task1.roman
+import kotlin.math.max
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -74,7 +78,36 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val date: Int
+    val month: Int
+    val year: Int
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    try {
+        date = parts[0].toInt()
+        year = parts[2].toInt()
+        month = when (parts[1]) {
+            "января" -> 1
+            "февраля" -> 2
+            "марта" -> 3
+            "апреля" -> 4
+            "мая" -> 5
+            "июня" -> 6
+            "июля" -> 7
+            "августа" -> 8
+            "сентября" -> 9
+            "октября" -> 10
+            "ноября" -> 11
+            "декабря" -> 12
+            else -> return ""
+        }
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    if (date < 1 || date > daysInMonth(month, year)) return ""
+    return "%02d.%02d.%04d".format(date, month, year)
+}
 
 /**
  * Средняя (4 балла)
@@ -86,7 +119,34 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    var res = ""
+    try {
+        val parts = digital.split(".")
+        if (parts.size != 3) return ""
+        val months = when (parts[1]) {
+            "01" -> "января"
+            "02" -> "февраля"
+            "03" -> "марта"
+            "04" -> "апреля"
+            "05" -> "мая"
+            "06" -> "июня"
+            "07" -> "июля"
+            "08" -> "августа"
+            "09" -> "сентября"
+            "10" -> "октября"
+            "11" -> "ноября"
+            "12" -> "декабря"
+            else -> return ""
+        }
+        val (date, month, year) = parts
+        if (date.toInt() <= daysInMonth(month.toInt(), year.toInt()))
+            res = "%d %s %s".format(date.toInt(), months, year) else res = ""
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    return res
+}
 
 /**
  * Средняя (4 балла)
@@ -114,7 +174,16 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var max = -1
+    if (jumps.contains(Regex("""[^\d\s-%]"""))) return max
+    val parts = Regex("""[-%\s]""").split(jumps)
+    for (part in parts) {
+        if (part.isNotEmpty() && part.toInt() > max)
+            max = part.toInt()
+    }
+    return max
+}
 
 /**
  * Сложная (6 баллов)
@@ -127,7 +196,18 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+
+fun bestHighJump(jumps: String): Int {
+    var max = -1
+    if (jumps.contains(Regex("""[^-%\d\s+]"""))) return max
+    val parts = jumps.split(" ")
+    println(parts)
+    for (part in parts.indices step 2) {
+        if ("+" in parts[part + 1] && parts[part].toInt() > max)
+            max = parts[part].toInt()
+    }
+    return max
+}
 
 /**
  * Сложная (6 баллов)
@@ -138,7 +218,23 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    if (expression.contains(Regex("""[^\d\s-+]"""))) throw IllegalArgumentException()
+    val parts = expression.split(" ")
+    var res = 0
+    var sign = 1
+    for (part in parts) {
+        if (parts.indexOf(part) % 2 == 0) {
+            require(part.all { it in '0' until '9' })
+            res += part.toInt() * sign
+        } else sign = when (part) {
+            "-" -> -1
+            "+" -> 1
+            else -> throw IllegalArgumentException()
+        }
+    }
+    return res
+}
 
 /**
  * Сложная (6 баллов)

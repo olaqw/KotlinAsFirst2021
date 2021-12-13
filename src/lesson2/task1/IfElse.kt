@@ -96,6 +96,7 @@ fun timeForHalfWay(
         else -> ((s - v1 * t1 - v2 * t2) / v3) + t1 + t2
     }
 }
+
 /**
  * Простая (2 балла)
  *
