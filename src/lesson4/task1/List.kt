@@ -211,7 +211,10 @@ fun polynom(p: List<Int>, x: Int): Int =
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
+fun accumulate(list: MutableList<Int>): MutableList<Int> {
+    for (i in 1 until list.size) list[i] = list[i] + list[i - 1]
+    return list
+}
 
 /**
  * Средняя (3 балла)
@@ -308,7 +311,6 @@ fun decimal(digits: List<Int>, base: Int): Int {
     return k
 }
 
-
 /**
  * Сложная (4 балла)
  *
@@ -321,8 +323,13 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
-
+fun decimalFromString(str: String, base: Int): Int {
+    val list = mutableListOf<Int>()
+    val b = "abcdefghijklmnopqrstuvwxyz"
+    for (i in str.indices)
+        if (str[i] in '0'..'9') list.add(str[i].toString().toInt()) else list.add(b.indexOf(str[i]) + 10)
+    return decimal(list, base)
+}
 /**
  * Сложная (5 баллов)
  * Перевести натуральное число n > 0 в римскую систему.

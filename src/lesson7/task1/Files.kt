@@ -105,14 +105,19 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
-    //val goodLetters = setOf('ч', 'ж', 'ш', 'щ')
-    //val toFix = mapOf('я' to 'а', 'ю' to 'у', 'ы' to 'и')
-
-    //File(outputName).bufferedWriter().use { write ->
-    //    File(inputName).forEachLine { l ->
-    //    }
-    //}
+    val list = setOf('ч', 'ж', 'ш', 'щ', 'Ч', 'Ж', 'Ш', 'Щ')
+    val letters = mapOf('я' to 'а', 'ю' to 'у', 'ы' to 'и', 'Я' to 'А', 'Ю' to 'У', 'Ы' to 'И')
+    val resText = File(outputName).bufferedWriter()
+    val text = File(inputName).readLines()
+    for (line in text) {
+        var newLine = line[0].toString()
+        for (i in 1 until line.length) {
+            if (list.contains(line[i - 1]) && letters.contains(line[i]))
+                newLine += letters.getValue(line[i]) else newLine += line[i]
+        }
+        resText.write("$newLine\n")
+    }
+    resText.close()
 }
 
 /**
@@ -261,7 +266,19 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    val res = File(outputName).bufferedWriter()
+    val text = File(inputName).readLines()
+    val list = mutableListOf<Int>()
+    val newLine = StringBuilder()
+    for (line in text) list.add(line.length)
+    for (line in text) {
+        var flag = 1
+        for (i in line.indices)
+            for (j in i + 1 until line.length) if (line[j].lowercase() == line[i].lowercase()) flag = 0
+        if (flag == 1 && line.length == list.maxOrNull()) newLine.append("$line, ")
+    }
+    res.write(newLine.substring(0, newLine.lastIndex - 1))
+    res.close()
 }
 
 /**
