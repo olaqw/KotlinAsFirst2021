@@ -113,8 +113,8 @@ fun whichRookThreatens(
 ): Int =
     when {
         (rookX1 != kingX && rookY1 != kingY) && (rookX2 != kingX && rookY2 != kingY) -> 0
-        ((rookX1 == kingX && rookY1 != kingY) || (rookX1 != kingX && rookY1 == kingY)) && (rookX2 != kingX && rookY2 != kingY) -> 1
-        ((rookX2 == kingX && rookY2 != kingY) || (rookX2 != kingX && rookY2 == kingY)) && (rookX1 != kingX && rookY1 != kingY) -> 2
+        ((rookX1 == kingX || rookY1 == kingY)) && (rookX2 != kingX && rookY2 != kingY) -> 1
+        ((rookX2 == kingX || rookY2 == kingY)) && (rookX1 != kingX && rookY1 != kingY) -> 2
         else -> 3
 }
 

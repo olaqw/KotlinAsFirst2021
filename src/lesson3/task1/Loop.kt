@@ -75,15 +75,14 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var m = abs(n)
-    if (m == 0)
-        return 1
+    return if (m == 0) 1
     else {
         var k = 0
         while (m > 0) {
             k++
             m = (m / 10)
         }
-        return k
+        k
     }
 }
 /**
@@ -105,7 +104,7 @@ fun minDivisor(n: Int): Int {
             return i
         }
     }
-    return -1
+    return n
 }
 
 /**
@@ -170,16 +169,7 @@ fun nod(m: Int, n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var k = 0
-    for (i in 2..max(m, n) / 2 + 1) {
-        if (n % i == 0 && m % i == 0) {
-            k = 1
-            break
-        }
-    }
-    return k == 0
-}
+fun isCoPrime(m: Int, n: Int): Boolean = nod(m, n) == 1
 
 /**
  * Средняя (3 балла)
