@@ -222,7 +222,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     val char = mutableListOf<String>()
     for (i in chars.indices) char.add(chars[i].lowercase())
     for (i in word.indices) {
-        if (word[i].toString() !in char) return false
+        if (word[i].lowercase() !in char) return false
     }
     return true
 }

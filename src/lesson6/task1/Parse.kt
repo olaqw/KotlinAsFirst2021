@@ -247,15 +247,19 @@ fun plusMinus(expression: String): Int {
  */
 fun firstDuplicateIndex(str: String): Int {
     val parts = str.split(" ")
+    println(parts)
     var res = -1
+    var work = 0
     if (parts.size > 1) {
         for (part in 0 until parts.size - 1) {
             res += parts[part].length + 1
             if (parts[part].lowercase() == parts[part + 1].lowercase()) {
+                work = 1
                 res -= parts[part].length
                 break
             }
         }
+        if (work == 0) res = -1 //проверка на наличие повторяющихся подряд слов
     }
     return res
 }
@@ -272,6 +276,8 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть больше нуля либо равны нулю.
  */
 fun mostExpensive(description: String): String {
+    val list = "$description; "
+    if (!list.matches(Regex("""([^\s]+\s\d+(\.\d+)?;\s)+"""))) return ""
     if (description.isEmpty()) return ""
     val description1 = description.replace(";", "")
     val parts = description1.split(" ")
