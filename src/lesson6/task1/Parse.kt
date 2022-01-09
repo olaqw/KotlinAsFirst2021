@@ -247,7 +247,6 @@ fun plusMinus(expression: String): Int {
  */
 fun firstDuplicateIndex(str: String): Int {
     val parts = str.split(" ")
-    println(parts)
     var res = -1
     var work = 0
     if (parts.size > 1) {

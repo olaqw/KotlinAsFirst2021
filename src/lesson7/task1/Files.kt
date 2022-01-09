@@ -278,6 +278,7 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
         if (flag == 1 && line.length == list.maxOrNull()) newLine.append("$line, ")
     }
     res.write(newLine.substring(0, newLine.lastIndex - 1))
+    if (inputName.isEmpty()) res.write("")
     res.close()
 }
 
