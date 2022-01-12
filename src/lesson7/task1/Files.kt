@@ -280,7 +280,7 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
         }
         res.write(newLine.substring(0, newLine.lastIndex - 1))
         res.write("")
-    } catch (e: NullPointerException) {
+    } catch (e: Nothing) {
         res.write("")
     }
     res.close()
