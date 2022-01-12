@@ -278,7 +278,7 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
                 for (j in i + 1 until line.length) if (line[j].lowercase() == line[i].lowercase()) flag = 0
             if (flag == 1 && line.length == list.maxOrNull()) newLine.append("$line, ")
         }
-        if (list.size > 1) res.write(newLine.substring(0, newLine.lastIndex - 1)) else res.write("")
+        if (newLine.isNotEmpty()) res.write(newLine.substring(0, newLine.lastIndex - 1)) else res.write("")
     } catch (e: NullPointerException) {
         res.write("")
     }
