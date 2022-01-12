@@ -3,7 +3,6 @@
 package lesson7.task1
 
 import java.io.File
-import javax.lang.model.type.NullType
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -279,13 +278,13 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
                 for (j in i + 1 until line.length) if (line[j].lowercase() == line[i].lowercase()) flag = 0
             if (flag == 1 && line.length == list.maxOrNull()) newLine.append("$line, ")
         }
-        res.write(newLine.substring(0, newLine.lastIndex - 1))
-        res.write("")
+        if (list.isNotEmpty()) res.write(newLine.substring(0, newLine.lastIndex - 1)) else res.write("")
     } catch (e: NullPointerException) {
         res.write("")
     }
     res.close()
 }
+
 /**
  * Сложная (22 балла)
  *
