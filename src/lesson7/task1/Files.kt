@@ -268,15 +268,26 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val res = File(outputName).bufferedWriter()
     val text = File(inputName).readLines()
-    val list = mutableListOf<Int>()
+    val lis = mutableListOf<Int>()
+    val list = mutableListOf<String>()
+    val max: Int
     val newLine = StringBuilder()
+    var nline: String
     try {
+        nline = ""
         for (line in text) {
             var flag = 1
             for (i in line.indices)
                 for (j in i + 1 until line.length) if (line[j].lowercase() == line[i].lowercase()) flag = 0
-            if (flag == 1) list.add(line.length) //
-            if (flag == 1 && line.length == list.maxOrNull()) newLine.append("$line, ")
+            if (flag == 1) {
+                lis.add(line.length)
+                list.add(line)
+            }
+        }
+        max = lis.maxOrNull()!!
+        for (i in list.indices) if (list[i].length == max) {
+            nline = list[i]
+            newLine.append("$nline, ")
         }
         if (newLine.isNotEmpty()) res.write(newLine.substring(0, newLine.lastIndex - 1)) else res.write("")
     } catch (e: NullPointerException) {
