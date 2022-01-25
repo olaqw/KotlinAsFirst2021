@@ -287,7 +287,7 @@ fun mostExpensive(description: String): String {
             max = parts[part].toDouble()
             res = parts[part - 1]
         }
-        if (max == 0.0) res = "Any good with price 0.0"
+        if (max == 0.0) res = "0.0"
     }
     return res
 }
