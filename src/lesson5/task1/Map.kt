@@ -102,7 +102,7 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
     val map = mutableMapOf<Int, List<String>>()
     for ((s, g) in grades) {
-        val l = listOf<String>(s)
+        val l = listOf(s)
         if (g !in map)
             map[g] = l
         else map[g] = map[g]!! + s
@@ -175,7 +175,23 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+//доделать
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+    val map = mutableMapOf<String, String>()
+    map.putAll(mapA + mapB)
+    println(map)
+    for ((k, v) in mapA) {
+        for ((key, value) in mapB) {
+            if (k == key) {
+                if (v != value) {
+                    map[k] = "$v, $value"
+                }
+            } else map[key] = value
+        }
+        break
+    }
+    return map
+}
 
 /**
  * Средняя (4 балла)
@@ -267,7 +283,29 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = TODO()
+fun hasAnagrams(words: List<String>): Boolean {
+    val set = mutableSetOf<String>()
+    val set1 = mutableSetOf<Char>()
+    for (i in words.indices) {
+        for (j in words.indices) {
+            if (words[i].length == words[j].length && words[i] != words[j]) set.add(words[i])
+        }
+    }
+    val list = set.toMutableList()
+    if (set.size > 1 && words.isNotEmpty()) {
+        var flag = 1
+        for (i in list.indices - 1) {
+            for (j in list[i].indices) set1.add((list[i])[j])
+            val size = set1.size
+            for (j in list[i].indices) {
+                set1.add((list[i + 1])[j])
+                if (set1.size > size) flag = 0
+            }
+        }
+        if (flag == 1) return true
+    }
+    return false
+}
 
 /**
  * Сложная (5 баллов)
@@ -303,8 +341,25 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  *          "GoodGnome" to setOf()
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
 
+
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+    val res = mutableMapOf<String, Set<String>>()
+    val set1 = mutableSetOf<String>()
+    for ((name, set) in friends) {
+        if (set.isNotEmpty()) {
+            for (friend in set) {
+                val pep = friends[friend]
+                set1.addAll(set)
+                if (friends.contains(friend)) {
+                    //for (i in pep!!.indices) if (name != pep[i]) set1.addAll(pep)
+                } else res[friend] = emptySet()
+            }
+            res[name] = set1
+        } else res[name] = emptySet()
+    }
+    return res
+}
 
 /**
  * Сложная (6 баллов)

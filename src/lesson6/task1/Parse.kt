@@ -3,8 +3,6 @@
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
-import lesson4.task1.roman
-import kotlin.math.max
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -162,7 +160,18 @@ fun dateDigitToStr(digital: String): String {
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val res: String
+    if (phone.contains(Regex("""[^()\s\d+-]""")) || phone.isEmpty()) return ""
+    if (phone.contains(Regex("""\(\)""")) && !phone.contains(Regex("""\d(?=\))"""))) return ""
+    val phone1 = phone.replace("-", "")
+    val phone2 = phone1.replace(" ", "")
+    res = if (phone.contains(Regex("""^\+"""))) {
+        val phone3 = phone2.replace("(", "")
+        phone3.replace(")", "")
+    } else phone2
+    return res
+}
 
 /**
  * Средняя (5 баллов)
@@ -306,7 +315,18 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    if (roman.contains(Regex("""[^IVXLCDM]"""))) return -1
+    var map = mutableMapOf(1 to "I", 5 to "V", 10 to "X", 50 to "L", 100 to "C", 500 to "D", 1000 to "M")
+    var roman1 = mutableListOf<String>()
+    for (i in roman) roman1.add(i.toString())
+    for ((key, value) in map) {
+        for (i in roman1.indices) {
+
+        }
+    }
+    return 1
+}
 
 /**
  * Очень сложная (7 баллов)
