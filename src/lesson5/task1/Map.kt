@@ -287,9 +287,11 @@ fun hasAnagrams(words: List<String>): Boolean {
     val set = mutableSetOf<String>()
     val set1 = mutableSetOf<Char>()
     for (i in words.indices) {
-        for (j in words.indices) {
-            if (words[i].length == words[j].length && words[i] != words[j]) set.add(words[i])
-        }
+        if (words[i].isNotEmpty()) {
+            for (j in words.indices) {
+                if (words[i].length == words[j].length && words[i] != words[j]) set.add(words[i])
+            }
+        } else return true
     }
     val list = set.toMutableList()
     if (set.size > 1 && words.isNotEmpty()) {

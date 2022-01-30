@@ -161,7 +161,7 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
-    if (phone.contains(Regex("""[^()\s\d+-]""")) || phone.isEmpty()) return ""
+    if (phone.contains(Regex("""[^()\s\d+-]""")) || !phone.contains(Regex("""[0-9]"""))) return ""
     if (phone.contains(Regex("""\(\)""")) && !phone.contains(Regex("""\d(?=\))"""))) return ""
     var res: String = phone.filter { it !in "- " }
     res = if (phone.contains(Regex("""^\+"""))) {
@@ -313,16 +313,16 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int {
-    if (roman.contains(Regex("""[^IVXLCDM]"""))) return -1
+    if (roman.contains(Regex("""[^IVXLCDM]""")) || roman.isEmpty()) return -1
     val map = mutableMapOf("I" to 1, "V" to 5, "X" to 10, "L" to 50, "C" to 100, "D" to 500, "M" to 1000)
     val roman1 = mutableListOf<String>()
     for (i in roman) roman1.add(i.toString())
     var res = map[roman1.last()]!!
     for (i in roman1.size - 1 downTo 1) {
-        val last = map[roman1[i - 1]]!!
-        if (last < map[roman1[i]]!!) {
-            res -= last
-        } else res += last
+        val previous = map[roman1[i - 1]]!!
+        if (previous < map[roman1[i]]!!) {
+            res -= previous
+        } else res += previous
     }
     return res
 }
