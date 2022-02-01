@@ -176,22 +176,22 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 //доделать
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val map = mutableMapOf<String, String>()
-    map.putAll(mapA + mapB)
-    println(map)
-    for ((k, v) in mapA) {
-        for ((key, value) in mapB) {
-            if (k == key) {
-                if (v != value) {
-                    map[k] = "$v, $value"
-                }
-            } else map[key] = value
-        }
-        break
-    }
-    return map
-}
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+// val map = mutableMapOf<String, String>()
+// map.putAll(mapA + mapB)
+// println(map)
+// for ((k, v) in mapA) {
+// for ((key, value) in mapB) {
+// if (k == key) {
+// if (v != value) {
+// map[k] = "$v, $value"
+//}
+//} else map[key] = value
+//}
+//break
+//}
+//return map
+//}
 
 /**
  * Средняя (4 балла)
@@ -286,15 +286,17 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
 fun hasAnagrams(words: List<String>): Boolean {
     val set = mutableSetOf<String>()
     val set1 = mutableSetOf<Char>()
-    for (i in words.indices) {
-        if (words[i].isNotEmpty()) {
-            for (j in words.indices) {
-                if (words[i].length == words[j].length && words[i] != words[j]) set.add(words[i])
+    for (i in 0 until words.size - 1) {
+        for (j in i + 1 until words.size) {
+            if (words[i].length == words[j].length) {
+                set.add(words[i])
+                set.add(words[j])
             }
-        } else return true
+        }
     }
     val list = set.toMutableList()
-    if (set.size > 1 && words.isNotEmpty()) {
+    if (list.isEmpty()) return false
+    if (set.size > 1) {
         var flag = 1
         for (i in list.indices - 1) {
             for (j in list[i].indices) set1.add((list[i])[j])
@@ -305,7 +307,7 @@ fun hasAnagrams(words: List<String>): Boolean {
             }
         }
         if (flag == 1) return true
-    }
+    } else return true
     return false
 }
 
@@ -348,9 +350,15 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
     for ((name, set) in friends) {
         val set1 = mutableSetOf<String>()
         if (set.isNotEmpty()) {
+
             for (friend in set) {
                 if (friends.contains(friend)) {
                     for (i in friends[friend]!!) {
+                        if (friends.contains(i)) {
+                            for (j in friends[i]!!) {
+                                if (name != j) set1.add(j)
+                            }
+                        }
                         if (name != i) set1.add(i)
                     }
                 } else res[friend] = emptySet()
