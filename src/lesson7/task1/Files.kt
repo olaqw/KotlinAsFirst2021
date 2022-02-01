@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import kotlin.math.*
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -200,7 +201,34 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  * Ключи в ассоциативном массиве должны быть в нижнем регистре.
  *
  */
-fun top20Words(inputName: String): Map<String, Int> = TODO()
+fun top20Words(inputName: String): Map<String, Int> {
+    val text1 = File(inputName).readText().lowercase()
+    val text = Regex("""[^а-яa-zйё]""").replace(text1, " ")
+    val parts = Regex("""\s+""").split(text).toMutableList()
+    var resMap = mutableMapOf<String, Int>()
+    val list = mutableListOf<Pair<String, Int>>()
+    val resList = mutableListOf<Pair<String, Int>>()
+    if (text1.isEmpty()) return emptyMap()
+    var count = 1
+    for (word in parts.indices) {
+        for (wordNext in word + 1 until parts.size) {
+            if (parts[word] == parts[wordNext]) count++
+        }
+        if (count > 1 && parts[word] !in resMap) resMap[parts[word]] = count
+        count = 1
+    }
+    resMap = resMap.toList().sortedByDescending { (key, value) -> value }.toMap().toMutableMap()
+    if (resMap.size < 20) return resMap else {
+        for ((k, v) in resMap)
+            list.add(k to v)
+        val last = list[19].second
+        for (i in list.indices) {
+            if (list[i].second >= last) resList.add(list[i]) else break
+        }
+        return resList.toMap()
+    }
+}
+
 
 /**
  * Средняя (14 баллов)
@@ -268,28 +296,31 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val res = File(outputName).bufferedWriter()
     val text = File(inputName).readLines()
-    val lis = mutableListOf<Int>()
-    val list = mutableListOf<String>()
-    val max: Int
     val newLine = StringBuilder()
-    var nline: String
+    val wordLength = mutableListOf<Int>()
+    val word = mutableListOf<String>()
+    val max: Int
     try {
-        nline = ""
+        var nline = ""
         for (line in text) {
             var flag = 1
             for (i in line.indices)
-                for (j in i + 1 until line.length) if (line[j].lowercase() == line[i].lowercase()) flag = 0
+                for (j in i + 1 until line.length) {
+                    if (line[j].lowercase() == line[i].lowercase()) flag = 0
+                }
             if (flag == 1) {
-                lis.add(line.length)
-                list.add(line)
+                wordLength.add(line.length)
+                word.add(line)
             }
         }
-        max = lis.maxOrNull()!!
-        for (i in list.indices) if (list[i].length == max) {
-            nline = list[i]
+        max = wordLength.maxOrNull()!!
+        for (i in word.indices) if (word[i].length == max) {
+            nline = word[i]
             newLine.append("$nline, ")
         }
-        if (newLine.isNotEmpty()) res.write(newLine.substring(0, newLine.lastIndex - 1)) else res.write("")
+        if (newLine.isNotEmpty()) {
+            res.write(newLine.substring(0, newLine.lastIndex - 1))
+        } else res.write("")
     } catch (e: NullPointerException) {
         res.write("")
     }
