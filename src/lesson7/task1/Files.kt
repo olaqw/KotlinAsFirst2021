@@ -208,17 +208,16 @@ fun top20Words(inputName: String): Map<String, Int> {
     var resMap = mutableMapOf<String, Int>()
     val list = mutableListOf<Pair<String, Int>>()
     val resList = mutableListOf<Pair<String, Int>>()
-    if (text1.isEmpty()) return emptyMap()
+    if (text.isEmpty()) return emptyMap()
     var count = 1
-    if (parts.size > 1) {
-        for (word in parts.indices) {
-            for (wordNext in word + 1 until parts.size) {
-                if (parts[word] == parts[wordNext]) count++
-            }
-            if (count > 1 && parts[word] !in resMap) resMap[parts[word]] = count
-            count = 1
+    for (word in parts.indices) {
+        for (wordNext in word + 1 until parts.size) {
+            if (parts[word] == parts[wordNext]) count++
         }
-    } else return mapOf(text to 1)
+        if (count > 1 && parts[word] !in resMap) resMap[parts[word]] = count
+        count = 1
+    }
+    if (resMap.isEmpty()) for (i in parts.indices) return mapOf(parts[i] to 1)
     resMap = resMap.toList().sortedByDescending { (key, value) -> value }.toMap().toMutableMap()
     if (resMap.size < 20) return resMap else {
         for ((k, v) in resMap)
