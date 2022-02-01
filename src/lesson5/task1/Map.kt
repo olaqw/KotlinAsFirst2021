@@ -288,7 +288,7 @@ fun hasAnagrams(words: List<String>): Boolean {
     val set1 = mutableSetOf<Char>()
     val set2 = mutableSetOf<Char>()
     var maxSet: MutableSet<Char>
-    if (words.size > 1) {///fff
+    if (words.size > 1) {
         for (word in 0 until words.size - 1) {
             set1.clear()
             for (i in words[word].indices) set1.add(words[word][i])
@@ -340,24 +340,23 @@ fun hasAnagrams(words: List<String>): Boolean {
  *          "GoodGnome" to setOf()
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
-    val res = mutableMapOf<String, Set<String>>()
-    for ((name, set) in friends) {
-        val set1 = mutableSetOf<String>()
-        if (set.isNotEmpty()) {
-            for (friend in set) {
-                if (friends.contains(friend)) {
-                    for (i in friends[friend]!!) {
-                        if (name != i) set1.add(i)
-                    }
-                } else res[friend] = emptySet()
-            }
-            set1.addAll(set)
-            res[name] = set1
-        } else res[name] = emptySet()
-    }
-    return res
-}
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
+//val res = mutableMapOf<String, Set<String>>()
+//for ((name, set) in friends) {
+//  val set1 = mutableSetOf<String>()
+//if (set.isNotEmpty()) {
+//  for (friend in set) {
+//    if (friends.contains(friend)) {
+//      for (i in friends[friend]!!) {
+//        if (name != i) set1.add(i)
+//  }
+// } else res[friend] = emptySet()
+// }
+// set1.addAll(set)
+//   res[name] = set1
+//  } else res[name] = emptySet()
+// }
+// return res
 
 /**
  * Сложная (6 баллов)
