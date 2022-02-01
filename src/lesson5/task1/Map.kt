@@ -4,6 +4,7 @@ package lesson5.task1
 
 import ru.spbstu.wheels.toMutableMap
 import lesson4.task1.mean
+import kotlin.math.*
 
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
@@ -284,30 +285,24 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    val set = mutableSetOf<String>()
     val set1 = mutableSetOf<Char>()
-    for (i in 0 until words.size - 1) {
-        for (j in i + 1 until words.size) {
-            if (words[i].length == words[j].length) {
-                set.add(words[i])
-                set.add(words[j])
+    val set2 = mutableSetOf<Char>()
+    var maxSet: MutableSet<Char>
+    if (words.size > 1) {
+        for (word in 0 until words.size - 1) {
+            set1.clear()
+            for (i in words[word].indices) set1.add(words[word][i])
+            for (wordNext in word + 1 until words.size) {
+                for (j in words[wordNext].indices) set2.add(words[wordNext][j])
+                val max = max(set1.size, set2.size)
+                maxSet = if (set1.size == max) {
+                    set1
+                } else set2
+                if (set1.union(set2) == maxSet && set1.size == set2.size) return true
+                set2.clear()
             }
         }
-    }
-    val list = set.toMutableList()
-    if (list.isEmpty()) return false
-    if (set.size > 1) {
-        var flag = 1
-        for (i in list.indices - 1) {
-            for (j in list[i].indices) set1.add((list[i])[j])
-            val size = set1.size
-            for (j in list[i].indices) {
-                set1.add((list[i + 1])[j])
-                if (set1.size > size) flag = 0
-            }
-        }
-        if (flag == 1) return true
-    } else return true
+    } else return false
     return false
 }
 
@@ -350,15 +345,9 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
     for ((name, set) in friends) {
         val set1 = mutableSetOf<String>()
         if (set.isNotEmpty()) {
-
             for (friend in set) {
                 if (friends.contains(friend)) {
                     for (i in friends[friend]!!) {
-                        if (friends.contains(i)) {
-                            for (j in friends[i]!!) {
-                                if (name != j) set1.add(j)
-                            }
-                        }
                         if (name != i) set1.add(i)
                     }
                 } else res[friend] = emptySet()

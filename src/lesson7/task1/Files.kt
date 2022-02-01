@@ -218,7 +218,7 @@ fun top20Words(inputName: String): Map<String, Int> {
             if (count > 1 && parts[word] !in resMap) resMap[parts[word]] = count
             count = 1
         }
-    } else return mapOf(parts.toString() to 1)
+    } else return mapOf("вошло" to 1)
     resMap = resMap.toList().sortedByDescending { (key, value) -> value }.toMap().toMutableMap()
     if (resMap.size < 20) return resMap else {
         for ((k, v) in resMap)
