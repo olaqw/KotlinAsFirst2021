@@ -210,7 +210,7 @@ fun top20Words(inputName: String): Map<String, Int> {
     val resList = mutableListOf<Pair<String, Int>>()
     if (text1.isEmpty()) return emptyMap()
     var count = 1
-    if (parts.size > 1) {
+    if (parts.size > 1) {//fff
         for (word in parts.indices) {
             for (wordNext in word + 1 until parts.size) {
                 if (parts[word] == parts[wordNext]) count++

@@ -288,7 +288,7 @@ fun hasAnagrams(words: List<String>): Boolean {
     val set1 = mutableSetOf<Char>()
     val set2 = mutableSetOf<Char>()
     var maxSet: MutableSet<Char>
-    if (words.size > 1) {
+    if (words.size > 1) {///fff
         for (word in 0 until words.size - 1) {
             set1.clear()
             for (i in words[word].indices) set1.add(words[word][i])
