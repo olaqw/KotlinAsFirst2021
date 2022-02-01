@@ -206,7 +206,6 @@ fun top20Words(inputName: String): Map<String, Int> {
     val text = Regex("""[^а-яa-zйё]""").replace(text1, " ").trim()
     val parts = Regex("""\s+""").split(text).toMutableList()
     var resMap = mutableMapOf<String, Int>()
-    var map = mutableMapOf<String, Int>()
     val list = mutableListOf<Pair<String, Int>>()
     val resList = mutableListOf<Pair<String, Int>>()
     if (text.isEmpty()) return emptyMap()
